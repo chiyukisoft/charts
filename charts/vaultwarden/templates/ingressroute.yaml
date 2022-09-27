@@ -1,0 +1,33 @@
+{{- if .Values.ingressRoute.enabled -}}
+{{- $fullName := include "vaultwarden.fullname" . -}}
+{{- $webSocketEnabled := .Values.vaultwarden.websocket.enabled }}
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ $fullName }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  entryPoints:
+    {{- range .Values.ingressRoute.entryPoints }}
+    - {{ . }}
+    {{- end }}
+  routes:
+    {{- range .Values.ingressRoute.hosts }}
+    {{- if $webSocketEnabled }}
+    - kind: Rule
+      match: Host(`{{ . }}`) && Path(`/notifications/hub`)
+      services:
+        - name: {{ $fullName }}
+          port: ws
+    {{- end }}
+    - kind: Rule
+      match: Host(`{{ . }}`)
+      services:
+        - name: {{ $fullName }}
+          port: http
+    {{- end }}
+  {{- with .Values.ingressRoute.tls }}
+  tls:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}

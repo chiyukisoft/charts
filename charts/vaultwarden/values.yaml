@@ -1,0 +1,69 @@
+nameOverride: ""
+fullnameOverride: ""
+
+vaultwarden:
+  signupsAllowed: false
+  invitationsAllowed: false
+  rocketPort: 80
+  websocket:
+    enabled: false
+    port: 3012
+
+deployment:
+  image:
+    repository: vaultwarden/server
+    tag: "1.25.2"
+    pullPolicy: IfNotPresent
+
+  resources: {}
+  secrets: []
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  extraEnvVars: []
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 1Gi
+  path: /data
+  #storageClass:
+  #existingClaim:
+
+securityContext:
+  enabled: false
+  runAsNonRoot: true
+  fsGroup: 1000
+  runAsUser: 1000
+
+ingress:
+  enabled: false
+  className: nginx
+  annotations: 
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ssl-redirect: "true"
+  hosts:
+    - vaultwarden.domain.tld
+  tls:
+   - secretName: vaultwarden-tls-secret
+     hosts:
+       - vaultwarden.domain.tld
+
+ingressRoute:
+  enabled: false
+  entryPoints: 
+    - websecure
+  hosts:
+    - vaultwarden.domain.tld
+  tls: {}
+    # certResolver: zerossl
+    # domains: 
+    #   - main: domain.tld
+    #     sans:
+    #       - '*.domain.tld'
