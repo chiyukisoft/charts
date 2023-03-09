@@ -1,0 +1,15 @@
+apiVersion: v2
+name: alist
+description: A Helm chart for Kubernetes to install alist
+type: application
+version: 0.1.0
+appVersion: 3.13.2
+home: https://github.com/chiyukisoft/charts
+sources:
+  - https://github.com/alist-org/alist
+keywords:
+  - alist
+  - storage
+maintainers:
+  - name: Chiyuki Kagura
+    email: illyathehath@outlook.com
