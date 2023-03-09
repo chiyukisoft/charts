@@ -28,8 +28,8 @@ persistence:
   #existingClaim:
 
 securityContext:
-  enabled: true
-  runAsNonRoot: true
+  enabled: false
+  runAsNonRoot: false
   runAsUser: 0
   runAsGroup: 0
 
