@@ -1,5 +1,25 @@
 apiVersion: v1
 entries:
+  alist:
+  - apiVersion: v2
+    appVersion: 3.13.2
+    created: "2023-03-09T09:48:24.560907395Z"
+    description: A Helm chart for Kubernetes to install alist
+    digest: 0211f2d0f0b54d17180ee8b51feeac7c7e215185269f9d1692425ca64c0150c4
+    home: https://github.com/chiyukisoft/charts
+    keywords:
+    - alist
+    - storage
+    maintainers:
+    - email: illyathehath@outlook.com
+      name: Chiyuki Kagura
+    name: alist
+    sources:
+    - https://github.com/alist-org/alist
+    type: application
+    urls:
+    - https://github.com/chiyukisoft/charts/releases/download/alist-0.1.0/alist-0.1.0.tgz
+    version: 0.1.0
   vaultwarden:
   - apiVersion: v2
     appVersion: 1.27.0
@@ -20,4 +40,4 @@ entries:
     urls:
     - https://github.com/chiyukisoft/charts/releases/download/vaultwarden-0.1.2/vaultwarden-0.1.2.tgz
     version: 0.1.2
-generated: "2023-02-23T06:00:08.764067518Z"
+generated: "2023-03-09T09:48:24.560911895Z"
