@@ -1,0 +1,219 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "mssql.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "mssql.name" . }}
+    helm.sh/chart: {{ include "mssql.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "mssql.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  serviceName: {{ include "mssql.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "mssql.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}"
+          imagePullPolicy: {{ .Values.deployment.image.pullPolicy }}
+          env:
+            - name: ACCEPT_EULA
+              value: {{ .Values.mssql.acceptEULA | quote }}
+            - name: MSSQL_PID
+              value: {{ .Values.mssql.mssqlPID | quote }}
+            - name: MSSQL_SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mssql.fullname" . }}-sa-secret
+                  key: sa_password
+            - name: MSSQL_TCP_PORT
+              value: {{ .Values.mssql.port | quote }}
+            - name: MSSQL_LCID
+              value: {{ .Values.mssql.lcid | quote }}
+            - name: MSSQL_COLLATION
+              value: {{ .Values.mssql.collation | quote }}
+            - name: MSSQL_MEMORY_LIMIT_MB
+              valueFrom:
+                resourceFieldRef:
+                  resource: limits.memory
+                  divisor: 1Mi
+            - name: MSSQL_ENABLE_HADR
+              value: {{ int .Values.mssql.enableHadr | quote }}
+            {{- if .Values.deployment.extraEnvVars }}
+            {{- range .Values.deployment.extraEnvVars }}
+            - name: {{ .name }}
+              value: {{ .value | quote}}
+            {{- end }}
+            {{- end }}
+          {{- range .Values.deployment.secrets }}
+          envFrom:
+            - secretRef:
+                name: {{ . }}
+          {{- end }}
+          ports:
+            - name: mssql
+              containerPort: {{ .Values.mssql.port }}
+              protocol: TCP
+          {{- if .Values.securityContext.enabled }}
+          securityContext:
+            runAsNonRoot: {{ .Values.securityContext.runAsNonRoot }}
+            runAsUser: {{ .Values.securityContext.runAsUser }}
+          {{- end }}
+          volumeMounts:
+            - name: mssqldb
+              mountPath: /var/opt/mssql
+            - name: mssqluserdb
+              mountPath: /var/opt/mssql/userdata
+            - name: mssqllog
+              mountPath: /var/opt/mssql/userlog
+            - name: mssqltemp
+              mountPath: /var/opt/mssql/tempdb
+          livenessProbe:
+            tcpSocket:
+              port: mssql
+            initialDelaySeconds: 120
+            periodSeconds: 30
+          readinessProbe:
+            tcpSocket:
+              port: mssql
+            initialDelaySeconds: 120
+            periodSeconds: 30
+          {{- with .Values.deployment.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      volumes:
+        {{- if and .Values.persistence.mssqldb.enabled .Values.persistence.mssqldb.existingClaim }}
+        - name: mssqldb
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.mssqldb.existingClaim }}
+        {{- else if not .Values.persistence.mssqldb.enabled }}
+        - name: mssqldb
+          emptyDir: {}
+        {{- end }}
+        {{- if and .Values.persistence.mssqldb.enabled .Values.persistence.mssqldb.existingClaim }}
+        - name: mssqluserdb
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.userdb.existingClaim }}
+        {{- else if not .Values.persistence.userdb.enabled }}
+        - name: mssqluserdb
+          emptyDir: {}
+        {{- end }}
+        {{- if and .Values.persistence.mssqldb.enabled .Values.persistence.mssqldb.existingClaim }}
+        - name: mssqllog
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.userlog.existingClaim }}
+        {{- else if not .Values.persistence.userlog.enabled }}
+        - name: mssqllog
+          emptyDir: {}
+        {{- end }}
+        {{- if and .Values.persistence.mssqldb.enabled .Values.persistence.mssqldb.existingClaim }}
+        - name: mssqltemp
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.tempdb.existingClaim }}
+        {{- else if not .Values.persistence.tempdb.enabled }}
+        - name: mssqltemp
+          emptyDir: {}
+        {{- end }}
+      {{- if .Values.securityContext.enabled }}
+      securityContext:
+        fsGroup: {{ .Values.securityContext.fsGroup }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+  volumeClaimTemplates:
+    {{- if and .Values.persistence.mssqldb.enabled (not .Values.persistence.mssqldb.existingClaim) }}
+    - metadata:
+        name: mssqldb
+        #namespace: {{ .Release.Namespace }}
+        labels:
+          app.kubernetes.io/name: {{ include "mssql.name" . }}
+          helm.sh/chart: {{ include "mssql.chart" . }}
+          app.kubernetes.io/instance: {{ .Release.Name }}
+          app.kubernetes.io/managed-by: {{ .Release.Service }}
+      spec:
+        accessModes:
+          - {{ .Values.persistence.mssqldb.accessMode }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.mssqldb.size }}
+        {{- if .Values.persistence.mssqldb.storageClass }}
+        storageClassName: {{ .Values.persistence.mssqldb.storageClass }}
+        {{- end }}
+    {{- end }}
+    {{- if and .Values.persistence.userdb.enabled (not .Values.persistence.userdb.existingClaim) }}
+    - metadata:
+        name: mssqluserdb
+        #namespace: {{ .Release.Namespace }}
+        labels:
+          app.kubernetes.io/name: {{ include "mssql.name" . }}
+          helm.sh/chart: {{ include "mssql.chart" . }}
+          app.kubernetes.io/instance: {{ .Release.Name }}
+          app.kubernetes.io/managed-by: {{ .Release.Service }}
+      spec:
+        accessModes:
+          - {{ .Values.persistence.userdb.accessMode }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.userdb.size }}
+        {{- if .Values.persistence.userdb.storageClass }}
+        storageClassName: {{ .Values.persistence.userdb.storageClass }}
+        {{- end }}
+    {{- end }}
+    {{- if and .Values.persistence.userlog.enabled (not .Values.persistence.userlog.existingClaim) }}
+    - metadata:
+        name: mssqllog
+        #namespace: {{ .Release.Namespace }}
+        labels:
+          app.kubernetes.io/name: {{ include "mssql.name" . }}
+          helm.sh/chart: {{ include "mssql.chart" . }}
+          app.kubernetes.io/instance: {{ .Release.Name }}
+          app.kubernetes.io/managed-by: {{ .Release.Service }}
+      spec:
+        accessModes:
+          - {{ .Values.persistence.userlog.accessMode }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.userlog.size }}
+        {{- if .Values.persistence.userlog.storageClass }}
+        storageClassName: {{ .Values.persistence.userlog.storageClass }}
+        {{- end }}
+    {{- end }}
+    {{- if and .Values.persistence.tempdb.enabled (not .Values.persistence.tempdb.existingClaim) }}
+    - metadata:
+        name: mssqltemp
+        #namespace: {{ .Release.Namespace }}
+        labels:
+          app.kubernetes.io/name: {{ include "mssql.name" . }}
+          helm.sh/chart: {{ include "mssql.chart" . }}
+          app.kubernetes.io/instance: {{ .Release.Name }}
+          app.kubernetes.io/managed-by: {{ .Release.Service }}
+      spec:
+        accessModes:
+          - {{ .Values.persistence.tempdb.accessMode }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.tempdb.size }}
+        {{- if .Values.persistence.tempdb.storageClass }}
+        storageClassName: {{ .Values.persistence.tempdb.storageClass }}
+        {{- end }}
+    {{- end }}

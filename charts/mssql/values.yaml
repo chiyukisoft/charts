@@ -1,0 +1,69 @@
+nameOverride: ""
+fullnameOverride: ""
+
+mssql:
+  acceptEULA: true
+  mssqlPID: Developer
+  saPassword: 'Str0n9P@ssw0rd!'
+  port: 1433
+  lcid: 1033
+  collation: SQL_Latin1_General_CP1_CI_AS
+  #lcid: 0804
+  #collation: Chinese_PRC_CI_AS
+  enableHadr: true
+
+deployment:
+  image:
+    repository: mcr.microsoft.com/mssql/server
+    tag: "2022-CU1-ubuntu-20.04"
+    pullPolicy: IfNotPresent
+  resources:
+    limits:
+      cpu: 250m
+      memory: 4Gi
+    requests:
+      cpu: 100m
+      memory: 2Gi
+  secrets: []
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  extraEnvVars: []
+
+service:
+  type: LoadBalancer
+  port: 1433
+  targetPort: 1433
+  #nodePort: 30441
+
+persistence:
+  mssqldb:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 5Gi
+    storageClass: longhorn
+    #existingClaim:
+  userdb:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 5Gi
+    storageClass: longhorn
+    #existingClaim:
+  userlog:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 5Gi
+    storageClass: longhorn
+    #existingClaim:
+  tempdb:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 5Gi
+    storageClass: longhorn
+    #existingClaim:
+
+securityContext:
+  enabled: true
+  runAsNonRoot: true
+  fsGroup: 10001
+  runAsUser: 10001

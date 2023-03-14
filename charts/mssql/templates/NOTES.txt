@@ -1,0 +1,1 @@
+Sql Server has successfully deployed.

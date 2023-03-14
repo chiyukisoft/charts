@@ -1,0 +1,16 @@
+apiVersion: v2
+name: mssql
+description: A Helm chart for Kubernetes to install Sql Server 2022
+type: application
+version: 0.1.0
+appVersion: 2022.1.0
+home: https://github.com/chiyukisoft/charts
+sources:
+  - https://www.microsoft.com/en-us/sql-server
+keywords:
+  - database
+  - mssql
+  - sqlserver
+maintainers:
+  - name: Chiyuki Kagura
+    email: illyathehath@outlook.com
