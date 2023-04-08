@@ -62,6 +62,25 @@ entries:
     version: 0.1.0
   vaultwarden:
   - apiVersion: v2
+    appVersion: 1.28.1
+    created: "2023-04-08T14:38:16.422873653Z"
+    description: A Helm chart for Kubernetes to install vaultwarden
+    digest: 5ed147eda4f82777faaa84269be587405055cc322e62cac2358b00b9e92b24fc
+    home: https://github.com/chiyukisoft/charts
+    keywords:
+    - vaultwarden
+    - password
+    maintainers:
+    - email: illyathehath@outlook.com
+      name: Chiyuki Kagura
+    name: vaultwarden
+    sources:
+    - https://github.com/dani-garcia/vaultwarden
+    type: application
+    urls:
+    - https://github.com/chiyukisoft/charts/releases/download/vaultwarden-0.1.3/vaultwarden-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v2
     appVersion: 1.27.0
     created: "2023-02-23T06:00:08.764061319Z"
     description: A Helm chart for Kubernetes to install vaultwarden
@@ -80,4 +99,4 @@ entries:
     urls:
     - https://github.com/chiyukisoft/charts/releases/download/vaultwarden-0.1.2/vaultwarden-0.1.2.tgz
     version: 0.1.2
-generated: "2023-03-14T09:02:26.215957717Z"
+generated: "2023-04-08T14:38:16.422883654Z"
