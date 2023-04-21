@@ -2,6 +2,25 @@ apiVersion: v1
 entries:
   alist:
   - apiVersion: v2
+    appVersion: 3.16.0
+    created: "2023-04-21T02:57:58.102556817Z"
+    description: A Helm chart for Kubernetes to install alist
+    digest: f091aaf781d4b21b6a036bccea6b90e833709f0ab67ffdc00aec75a5612b304d
+    home: https://github.com/chiyukisoft/charts
+    keywords:
+    - alist
+    - storage
+    maintainers:
+    - email: illyathehath@outlook.com
+      name: Chiyuki Kagura
+    name: alist
+    sources:
+    - https://github.com/alist-org/alist
+    type: application
+    urls:
+    - https://github.com/chiyukisoft/charts/releases/download/alist-0.1.2/alist-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
     appVersion: 3.13.2
     created: "2023-03-09T10:24:32.341128329Z"
     description: A Helm chart for Kubernetes to install alist
@@ -39,6 +58,27 @@ entries:
     urls:
     - https://github.com/chiyukisoft/charts/releases/download/alist-0.1.0/alist-0.1.0.tgz
     version: 0.1.0
+  alist-aria2:
+  - apiVersion: v2
+    appVersion: 3.16.0
+    created: "2023-04-21T02:57:58.274451873Z"
+    description: A Helm chart for Kubernetes to install alist with pre-installed aria2
+    digest: c13549760d5f1e7843cfdce9638b27b6c70f4ab6d625cac8f688b84c3e29fa2f
+    home: https://github.com/chiyukisoft/charts
+    keywords:
+    - alist
+    - aria2
+    - storage
+    maintainers:
+    - email: illyathehath@outlook.com
+      name: Chiyuki Kagura
+    name: alist-aria2
+    sources:
+    - https://github.com/alist-org/with-aria2
+    type: application
+    urls:
+    - https://github.com/chiyukisoft/charts/releases/download/alist-aria2-0.1.2/alist-aria2-0.1.2.tgz
+    version: 0.1.2
   mssql:
   - apiVersion: v2
     appVersion: 2022.1.0
@@ -99,4 +139,4 @@ entries:
     urls:
     - https://github.com/chiyukisoft/charts/releases/download/vaultwarden-0.1.2/vaultwarden-0.1.2.tgz
     version: 0.1.2
-generated: "2023-04-08T14:38:16.422883654Z"
+generated: "2023-04-21T02:57:58.274472273Z"
