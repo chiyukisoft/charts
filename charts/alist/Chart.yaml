@@ -2,8 +2,8 @@ apiVersion: v2
 name: alist
 description: A Helm chart for Kubernetes to install alist
 type: application
-version: 0.1.2
-appVersion: 3.16.0
+version: 0.1.3
+appVersion: 3.16.3
 home: https://github.com/chiyukisoft/charts
 sources:
   - https://github.com/alist-org/alist
