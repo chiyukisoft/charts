@@ -2,8 +2,8 @@ apiVersion: v2
 name: alist-aria2
 description: A Helm chart for Kubernetes to install alist with pre-installed aria2
 type: application
-version: 0.1.3
-appVersion: 3.16.3
+version: 0.1.4
+appVersion: 3.27.0
 home: https://github.com/chiyukisoft/charts
 sources:
   - https://github.com/alist-org/with-aria2
