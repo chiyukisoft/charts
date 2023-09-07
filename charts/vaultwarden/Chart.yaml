@@ -2,8 +2,8 @@ apiVersion: v2
 name: vaultwarden
 description: A Helm chart for Kubernetes to install vaultwarden
 type: application
-version: 0.1.3
-appVersion: 1.28.1
+version: 0.1.4
+appVersion: 1.29.2
 home: https://github.com/chiyukisoft/charts
 sources:
   - https://github.com/dani-garcia/vaultwarden

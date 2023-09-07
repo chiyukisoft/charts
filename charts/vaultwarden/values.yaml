@@ -12,7 +12,7 @@ vaultwarden:
 deployment:
   image:
     repository: vaultwarden/server
-    tag: "1.28.1"
+    tag: "1.29.2"
     pullPolicy: IfNotPresent
 
   resources: {}
