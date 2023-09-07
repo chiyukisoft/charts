@@ -2,6 +2,25 @@ apiVersion: v1
 entries:
   alist:
   - apiVersion: v2
+    appVersion: 3.27.0
+    created: "2023-09-07T09:09:07.607562318Z"
+    description: A Helm chart for Kubernetes to install alist
+    digest: ec361785cee3aa96256cc0e0bc6092f1ddaff687fffd00744cedfd4b9d9812a3
+    home: https://github.com/chiyukisoft/charts
+    keywords:
+    - alist
+    - storage
+    maintainers:
+    - email: illyathehath@outlook.com
+      name: Chiyuki Kagura
+    name: alist
+    sources:
+    - https://github.com/alist-org/alist
+    type: application
+    urls:
+    - https://github.com/chiyukisoft/charts/releases/download/alist-0.1.4/alist-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
     appVersion: 3.16.3
     created: "2023-05-10T06:01:17.99360393Z"
     description: A Helm chart for Kubernetes to install alist
@@ -79,6 +98,26 @@ entries:
     version: 0.1.0
   alist-aria2:
   - apiVersion: v2
+    appVersion: 3.27.0
+    created: "2023-09-07T09:09:07.744305283Z"
+    description: A Helm chart for Kubernetes to install alist with pre-installed aria2
+    digest: ce0ce42167d17b3ccbad21ae29399faf5f667732d71553b35d90b45db35d201f
+    home: https://github.com/chiyukisoft/charts
+    keywords:
+    - alist
+    - aria2
+    - storage
+    maintainers:
+    - email: illyathehath@outlook.com
+      name: Chiyuki Kagura
+    name: alist-aria2
+    sources:
+    - https://github.com/alist-org/with-aria2
+    type: application
+    urls:
+    - https://github.com/chiyukisoft/charts/releases/download/alist-aria2-0.1.4/alist-aria2-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
     appVersion: 3.16.3
     created: "2023-05-10T06:01:18.236311951Z"
     description: A Helm chart for Kubernetes to install alist with pre-installed aria2
@@ -141,6 +180,25 @@ entries:
     version: 0.1.0
   vaultwarden:
   - apiVersion: v2
+    appVersion: 1.29.2
+    created: "2023-09-07T09:09:07.887813416Z"
+    description: A Helm chart for Kubernetes to install vaultwarden
+    digest: ea3af549d8d517c3edf0b6e0dabd367675022ccbf8aca1c7aa88302fba3fc5f2
+    home: https://github.com/chiyukisoft/charts
+    keywords:
+    - vaultwarden
+    - password
+    maintainers:
+    - email: illyathehath@outlook.com
+      name: Chiyuki Kagura
+    name: vaultwarden
+    sources:
+    - https://github.com/dani-garcia/vaultwarden
+    type: application
+    urls:
+    - https://github.com/chiyukisoft/charts/releases/download/vaultwarden-0.1.4/vaultwarden-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
     appVersion: 1.28.1
     created: "2023-04-08T14:38:16.422873653Z"
     description: A Helm chart for Kubernetes to install vaultwarden
@@ -178,4 +236,4 @@ entries:
     urls:
     - https://github.com/chiyukisoft/charts/releases/download/vaultwarden-0.1.2/vaultwarden-0.1.2.tgz
     version: 0.1.2
-generated: "2023-05-10T06:01:18.236336352Z"
+generated: "2023-09-07T09:09:07.887934917Z"
